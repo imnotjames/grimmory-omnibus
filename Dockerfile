@@ -88,6 +88,9 @@ ENV PUID="1000"
 ENV PGID="1000"
 ENV S6_VERBOSITY=1
 
+# Version to be displayed within the application
+ENV APP_VERSION="v${GRIMMORY_VERSION}"
+
 # Create the mariadb data directory
 RUN mkdir -p "${MARIADB_DATADIR}"
 
