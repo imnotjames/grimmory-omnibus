@@ -84,8 +84,6 @@ COPY --from=grimmory-overlay /usr/local/bin/ffprobe /usr/local/bin/kepubify /usr
 
 
 ENV TZ="UTC"
-ENV PUID="1000"
-ENV PGID="1000"
 ENV S6_VERBOSITY=1
 
 # Version to be displayed within the application
