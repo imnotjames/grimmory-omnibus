@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv /bin/bash
+
+export REAL_IP_FROM=${REAL_IP_FROM:-0.0.0.0/32}
+export REAL_IP_HEADER=${REAL_IP_HEADER:-X-Forwarded-For}
+export GRIMMORY_SIZE_LIMIT=${GRIMMORY_SIZE_LIMIT:-1M}
+
+export LISTEN_PORT=${LISTEN_PORT:-8080}
+export GRIMMORY_PORT=${GRIMMORY_PORT:-6060}
+
+
+template /etc/template/nginx/nginx.conf > /etc/nginx/nginx.conf
+template /etc/template/nginx/conf.d/grimmory.conf > /etc/nginx/conf.d/grimmory.conf

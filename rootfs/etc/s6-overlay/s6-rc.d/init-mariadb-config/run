@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+
+# copy custom cnf file
+if [[ ! -f /config/custom.cnf ]]; then
+    cp /defaults/custom.cnf "${MARIADB_DATADIR}/custom.cnf"
+    chmod -R o+r "${MARIADB_DATADIR}/custom.cnf"
+fi
+
+mkdir -p /var/log/mysql
+chown -R grimmory:grimmory /var/log/mysql
+
+mkdir -p /run/mysqld/
+chown -R grimmory:grimmory /run/mysqld/
