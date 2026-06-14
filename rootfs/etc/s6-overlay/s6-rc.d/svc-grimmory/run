@@ -6,9 +6,6 @@ export DATABASE_URL=jdbc:mariadb://localhost:3306/${MARIADB_DATABASE:-grimmory}
 export DATABASE_USERNAME=${MARIADB_USER:-grimmory}
 export DATABASE_PASSWORD=${MARIADB_PASSWORD:-grimmory}
 
-mkdir -p /app/data
-chown -R grimmory:grimmory /app/data
-
 export JAVA_TOOL_OPTIONS="-XX:+UseShenandoahGC \
     -XX:ShenandoahGCHeuristics=compact \
     -XX:+UseCompactObjectHeaders \
