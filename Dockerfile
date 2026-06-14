@@ -128,7 +128,7 @@ RUN adduser -D -H -u ${PUID} -G grimmory -s /bin/sh grimmory
 COPY rootfs /
 
 VOLUME "/database"
-VOLUME "/config/grimmory"
+VOLUME "/config"
 VOLUME "/books"
 VOLUME "/bookdrop"
 
