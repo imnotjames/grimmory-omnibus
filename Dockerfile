@@ -61,6 +61,7 @@ FROM alpine:${ALPINE_VERSION} AS run
 ARG MARIADB_VERSION
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
+ENV APP_PATH_CONFIG="/config/grimmory"
 
 ENV MARIADB_PID="/run/mysqld/mysqld.pid"
 ENV MARIADB_DATADIR="/database"
@@ -125,7 +126,8 @@ RUN adduser -D -H -u ${PUID} -G grimmory -s /bin/sh grimmory
 # Copy over the s6 overlay
 COPY rootfs /
 
-VOLUME "/databases"
+VOLUME "/database"
+VOLUME "/config/grimmory"
 VOLUME "/books"
 VOLUME "/bookdrop"
 
