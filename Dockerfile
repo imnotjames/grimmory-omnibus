@@ -60,6 +60,9 @@ FROM ghcr.io/grimmory-tools/grimmory:v${GRIMMORY_VERSION} AS grimmory-overlay
 FROM alpine:${ALPINE_VERSION} AS run
 ARG MARIADB_VERSION
 
+ARG PGID=1000
+ARG PUID=1000
+
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ENV APP_PATH_CONFIG="/config/grimmory"
