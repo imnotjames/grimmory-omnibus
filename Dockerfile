@@ -59,6 +59,7 @@ FROM ghcr.io/grimmory-tools/grimmory:v${GRIMMORY_VERSION} AS grimmory-overlay
 
 FROM alpine:${ALPINE_VERSION} AS run
 ARG MARIADB_VERSION
+
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 ENV APP_PATH_CONFIG="/config/grimmory"
@@ -86,9 +87,6 @@ COPY --from=grimmory-overlay /usr/local/bin/ffprobe /usr/local/bin/kepubify /usr
 
 ENV TZ="UTC"
 ENV S6_VERBOSITY=1
-
-# Version to be displayed within the application
-ENV APP_VERSION="v${GRIMMORY_VERSION}"
 
 # Create the mariadb data directory
 RUN mkdir -p "${MARIADB_DATADIR}"
