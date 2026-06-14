@@ -87,6 +87,9 @@ COPY --from=grimmory-overlay /app/app.jar /app/app.jar
 # Copy the kepubify and ffprobe binaries
 COPY --from=grimmory-overlay /usr/local/bin/ffprobe /usr/local/bin/kepubify /usr/local/bin/
 
+# Copy the libarchive binaries
+COPY --from=grimmory-overlay /usr/lib/libarchive.* /usr/lib/
+
 
 ENV TZ="UTC"
 ENV S6_VERBOSITY=1
