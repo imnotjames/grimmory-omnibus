@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+# Remove bookdrop lost+found directory if it can be
+# created (see: proxmox)
+rmdir /bookdrop/lost+found || true
+
 # Ensure data, bookdrop, and books directories exist and are writable by the target user
-mkdir -p /config/grimmory /bookdrop /books
+mkdir -p /config/grimmory /bookdrop/ /books
 chown -R grimmory:grimmory /config /bookdrop /books 2>/dev/null || true
