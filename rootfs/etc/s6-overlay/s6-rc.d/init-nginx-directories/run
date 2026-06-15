@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+
+# Ensure nginx has a place for the pidfile
+mkdir -p /var/run/nginx
