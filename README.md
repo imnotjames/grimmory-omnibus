@@ -101,3 +101,7 @@ LXC container.
 Start the new container and confirm it's operating as expected.
 
 Once everything is working, the old LXC container may be deleted.
+
+## License
+
+Distributed under the terms of the [AGPL-3.0 License](./LICENSE).
