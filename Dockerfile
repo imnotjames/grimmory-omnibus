@@ -65,7 +65,6 @@ ARG PUID=1000
 
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
-ENV APP_PATH_CONFIG="/config/grimmory"
 
 ENV MARIADB_PID="/run/mysqld/mysqld.pid"
 ENV MARIADB_DATADIR="/database"
