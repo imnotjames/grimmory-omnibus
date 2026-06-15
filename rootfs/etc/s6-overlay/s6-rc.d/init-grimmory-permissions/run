@@ -3,4 +3,4 @@ set -e
 
 # Ensure data, bookdrop, and books directories exist and are writable by the target user
 mkdir -p /config/grimmory /bookdrop /books
-chown grimmory:grimmory /config /bookdrop /books 2>/dev/null || true
+chown -R grimmory:grimmory /config /bookdrop /books 2>/dev/null || true
