@@ -1,0 +1,78 @@
+name: Check for Grimmory Release
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  image_version:
+    names:
+      - grimmory-tools/grimmory
+  workflow_dispatch: {}
+
+jobs:
+  check-release:
+    name: Check Grimmory Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+    
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      exists: ${{ steps.packages.outputs.exists }}
+
+    steps:
+      - name: Check Grimmory Release
+        id: release
+        env:
+          GH_TOKEN: ${{ secrets.GRIMMORY_GH_SECRET }}
+          UPSTREAM_REPOSITORY: grimmory-tools/grimmory
+        run: |
+          set -xe
+
+          GRIMMORY_VERSION=$(
+            gh release list \
+              --repo "${UPSTREAM_REPOSITORY}" \
+              --json tagName,isLatest \
+              --jq '. | map(select(.isLatest == true)) | .[].tagName'
+          )
+
+          echo "version=${GRIMMORY_VERSION#v}"
+          echo "version=${GRIMMORY_VERSION#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Authenticate to GitHub Container Registry
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Check Packages
+        id: packages
+        env:
+          GRIMMORY_VERSION: ${{ steps.grimmory_release.outputs.version }}
+          CONTAINER_REPOSITORY: ${{ github.repository }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY}:v${GRIMMORY_VERSION}"
+
+          if 2>/dev/null 1>&2 docker manifest inspect "$IMAGE"; then
+            echo "Image Exists"
+            # Do something if image exists
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Image Does Not Exist"
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  publish-image:
+    needs:
+      - check-release
+
+    permissions:
+      packages: write
+      contents: read
+    
+    if: ${{ needs.check-release.outputs.exists == 'false' }}
+    uses: ./.github/workflows/publish.yaml
+    with:
+      grimmory-version: ${{ needs.check-release.outputs.version }}

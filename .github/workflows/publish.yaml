@@ -1,9 +1,15 @@
 name: Publish Docker Image
 
 on:
+  workflow_call:
+    inputs:
+      grimmory-version:
+        description: 'Grimmory Version to use'
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
-      grimmory_version:
+      grimmory-version:
         description: 'Grimmory Version to use'
         required: true
         type: string
@@ -48,8 +54,8 @@ jobs:
           images: |
             ghcr.io/${{ github.repository }}
           tags: |
-            type=semver,pattern=v{{version}},value=${{ inputs.grimmory_version }},match=^(.+)$
-            type=semver,pattern=v{{major}}.{{minor}},value=${{ inputs.grimmory_version }},match=^(.+)$
+            type=semver,pattern=v{{version}},value=${{ inputs.grimmory-version }},match=^(.+)$
+            type=semver,pattern=v{{major}}.{{minor}},value=${{ inputs.grimmory-version }},match=^(.+)$
 
       - name: Build and push
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
@@ -61,7 +67,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
           build-args: |
-            GRIMMORY_VERSION=${{ inputs.grimmory_version }}
+            GRIMMORY_VERSION=${{ inputs.grimmory-version }}
           cache-from: |
             type=gha,scope=image-shared
             type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
